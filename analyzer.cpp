@@ -17,7 +17,6 @@
 #include <inttypes.h>
 #include <strings.h>
 #include <fstream>
-#include <sys/stat.h>
 #include <vector>
 #include <math.h>
 #include <array>
@@ -212,7 +211,7 @@ void printStreamInfo(SrcDst sd)
     std::cout << IPtoString(sd.m_dstip) << ":" << sd.m_dstport;
 }
 
-int start_analysis(ThreadParam *param, char *dev, std::string folder, uint32_t sinterval, std::string &pcapfilter, uint32_t nrs)
+int setup_pcap(ThreadParam *param, char *dev, std::string &pcapfilter) 
 {
     char errbuf[PCAP_ERRBUF_SIZE];
     pcap_t *descr;
@@ -242,9 +241,10 @@ int start_analysis(ThreadParam *param, char *dev, std::string folder, uint32_t s
         fprintf(stderr, "Couldn't install filter: %s\n", pcap_geterr(param->m_descr));
         return(2);
     }
+}
 
-    mkdir(folder.c_str(), 0777);
-
+int start_analysis(ThreadParam *param)
+{
     pthread_t thread_id[2];
     pthread_attr_t attrs;
     pthread_attr_init(&attrs);

@@ -145,6 +145,7 @@ public:
 };
 
 uint64_t getStamp();
-int start_analysis(ThreadParam *param, char *dev, std::string folder, uint32_t sinterval, std::string &pcapfilter, uint32_t nrs);
+int setup_pcap(ThreadParam *param, char *dev, std::string &pcapfilter);
+int start_analysis(ThreadParam *param);
 
 #endif // ANALYSIS_H

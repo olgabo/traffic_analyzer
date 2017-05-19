@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 
 #include "analyzer.h"
 
@@ -33,8 +34,12 @@ int main(int argc, char **argv)
     if (argc > 5)
         nrs = atoi(argv[5]);
 
+    mkdir(folder.c_str(), 0777);
+
     ThreadParam *param = new ThreadParam(sinterval, folder, nrs); 
-    start_analysis(param, dev, folder, sinterval, pcapfilter, nrs);
+
+    setup_pcap(param, dev, pcapfilter);
+    start_analysis(param);
 
     return 0;
 }
