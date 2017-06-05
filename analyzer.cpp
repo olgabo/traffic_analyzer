@@ -42,7 +42,6 @@ public:
     double cv;
 };
 
-static void *pcapLoop(void *param);
 static void *printInfo(void *param);
 
 uint64_t getStamp()
