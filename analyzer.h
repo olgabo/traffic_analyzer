@@ -12,6 +12,10 @@
 
 #define QS_LIMIT 2048
 #define PDF_UPPERLIM 500
+#define NSEC_PER_SEC 1000000000UL
+#define NSEC_PER_MS 1000000UL
+#define US_PER_S 1000000UL
+#define NSEC_PER_US 1000UL
 
 struct SrcDst {
 public:
@@ -145,7 +149,12 @@ public:
 };
 
 uint64_t getStamp();
+
+void *pcapLoop(void *);
 int setup_pcap(ThreadParam *param, char *dev, std::string &pcapfilter);
 int start_analysis(ThreadParam *param);
+void processFD();
+void wait(uint64_t sleep_ns);
+
 
 #endif // ANALYSIS_H
