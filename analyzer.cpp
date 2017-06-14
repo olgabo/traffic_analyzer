@@ -186,9 +186,9 @@ void processPacket(u_char *, const struct pcap_pkthdr *header, const u_char *buf
     pthread_mutex_unlock(&tp->m_mutex);
 }
 
-void openFileW(std::ofstream *file, std::string filename) {
-    *file = std::ofstream(filename.c_str());
-    if (!file->is_open()) {
+void openFileW(std::ofstream& file, std::string filename) {
+    file.open(filename.c_str());
+    if (!file.is_open()) {
         std::cerr << "Error opening file for writing: " << filename << std::endl;
         exit(1);
     }
@@ -379,24 +379,24 @@ void *printInfo(void *)
     // per sample
     printf("Output folder: %s\n", tp->m_folder.c_str());
 
-    std::ofstream f_packets_ecn;           openFileW(&f_packets_ecn,           tp->m_folder + "/packets_ecn");
-    std::ofstream f_packets_nonecn;        openFileW(&f_packets_nonecn,        tp->m_folder + "/packets_nonecn");
+    std::ofstream f_packets_ecn;           openFileW(f_packets_ecn,           tp->m_folder + "/packets_ecn");
+    std::ofstream f_packets_nonecn;        openFileW(f_packets_nonecn,        tp->m_folder + "/packets_nonecn");
 
-    std::ofstream f_queue_packets_ecn00;   openFileW(&f_queue_packets_ecn00,   tp->m_folder + "/queue_packets_ecn00");
-    std::ofstream f_queue_packets_ecn01;   openFileW(&f_queue_packets_ecn01,   tp->m_folder + "/queue_packets_ecn01");
-    std::ofstream f_queue_packets_ecn10;   openFileW(&f_queue_packets_ecn10,   tp->m_folder + "/queue_packets_ecn10");
-    std::ofstream f_queue_packets_ecn11;   openFileW(&f_queue_packets_ecn11,   tp->m_folder + "/queue_packets_ecn11");
-    std::ofstream f_queue_drops_ecn00;     openFileW(&f_queue_drops_ecn00,     tp->m_folder + "/queue_drops_ecn00");
-    std::ofstream f_queue_drops_ecn01;     openFileW(&f_queue_drops_ecn01,     tp->m_folder + "/queue_drops_ecn01");
-    std::ofstream f_queue_drops_ecn10;     openFileW(&f_queue_drops_ecn10,     tp->m_folder + "/queue_drops_ecn10");
-    std::ofstream f_queue_drops_ecn11;     openFileW(&f_queue_drops_ecn11,     tp->m_folder + "/queue_drops_ecn11");
+    std::ofstream f_queue_packets_ecn00;   openFileW(f_queue_packets_ecn00,   tp->m_folder + "/queue_packets_ecn00");
+    std::ofstream f_queue_packets_ecn01;   openFileW(f_queue_packets_ecn01,   tp->m_folder + "/queue_packets_ecn01");
+    std::ofstream f_queue_packets_ecn10;   openFileW(f_queue_packets_ecn10,   tp->m_folder + "/queue_packets_ecn10");
+    std::ofstream f_queue_packets_ecn11;   openFileW(f_queue_packets_ecn11,   tp->m_folder + "/queue_packets_ecn11");
+    std::ofstream f_queue_drops_ecn00;     openFileW(f_queue_drops_ecn00,     tp->m_folder + "/queue_drops_ecn00");
+    std::ofstream f_queue_drops_ecn01;     openFileW(f_queue_drops_ecn01,     tp->m_folder + "/queue_drops_ecn01");
+    std::ofstream f_queue_drops_ecn10;     openFileW(f_queue_drops_ecn10,     tp->m_folder + "/queue_drops_ecn10");
+    std::ofstream f_queue_drops_ecn11;     openFileW(f_queue_drops_ecn11,     tp->m_folder + "/queue_drops_ecn11");
 
-    std::ofstream f_rate_ecn;              openFileW(&f_rate_ecn,              tp->m_folder + "/rate_ecn");
-    std::ofstream f_rate_nonecn;           openFileW(&f_rate_nonecn,           tp->m_folder + "/rate_nonecn");
-    std::ofstream f_drops_ecn;             openFileW(&f_drops_ecn,             tp->m_folder + "/drops_ecn");
-    std::ofstream f_drops_nonecn;          openFileW(&f_drops_nonecn,          tp->m_folder + "/drops_nonecn");
-    std::ofstream f_marks_ecn;             openFileW(&f_marks_ecn,             tp->m_folder + "/marks_ecn");
-    std::ofstream f_rate;                  openFileW(&f_rate,                  tp->m_folder + "/rate");
+    std::ofstream f_rate_ecn;              openFileW(f_rate_ecn,              tp->m_folder + "/rate_ecn");
+    std::ofstream f_rate_nonecn;           openFileW(f_rate_nonecn,           tp->m_folder + "/rate_nonecn");
+    std::ofstream f_drops_ecn;             openFileW(f_drops_ecn,             tp->m_folder + "/drops_ecn");
+    std::ofstream f_drops_nonecn;          openFileW(f_drops_nonecn,          tp->m_folder + "/drops_nonecn");
+    std::ofstream f_marks_ecn;             openFileW(f_marks_ecn,             tp->m_folder + "/marks_ecn");
+    std::ofstream f_rate;                  openFileW(f_rate,                  tp->m_folder + "/rate");
 
     // first column in header contains the number of columns following
     f_queue_packets_ecn00 << QS_LIMIT;
@@ -601,11 +601,11 @@ void *printInfo(void *)
     // write per flow stats
     // (we wait till here because we don't know how many
     //  flows there are before the test is finished)
-    std::ofstream f_flows_rate_ecn;     openFileW(&f_flows_rate_ecn,      tp->m_folder + "/flows_rate_ecn");
-    std::ofstream f_flows_rate_nonecn;  openFileW(&f_flows_rate_nonecn,   tp->m_folder + "/flows_rate_nonecn");
-    std::ofstream f_flows_drops_ecn;    openFileW(&f_flows_drops_ecn,     tp->m_folder + "/flows_drops_ecn");
-    std::ofstream f_flows_drops_nonecn; openFileW(&f_flows_drops_nonecn,  tp->m_folder + "/flows_drops_nonecn");
-    std::ofstream f_flows_marks_ecn;    openFileW(&f_flows_marks_ecn,     tp->m_folder + "/flows_marks_ecn");
+    std::ofstream f_flows_rate_ecn;     openFileW(f_flows_rate_ecn,      tp->m_folder + "/flows_rate_ecn");
+    std::ofstream f_flows_rate_nonecn;  openFileW(f_flows_rate_nonecn,   tp->m_folder + "/flows_rate_nonecn");
+    std::ofstream f_flows_drops_ecn;    openFileW(f_flows_drops_ecn,     tp->m_folder + "/flows_drops_ecn");
+    std::ofstream f_flows_drops_nonecn; openFileW(f_flows_drops_nonecn,  tp->m_folder + "/flows_drops_nonecn");
+    std::ofstream f_flows_marks_ecn;    openFileW(f_flows_marks_ecn,     tp->m_folder + "/flows_marks_ecn");
 
     // note: drop and mark numbers per flow don't really tell us much, as
     //       the numbers include whichever packet was handled before this
@@ -646,8 +646,8 @@ void *printInfo(void *)
     f_flows_marks_ecn.close();
 
     // save flow details
-    std::ofstream f_flows_ecn;    openFileW(&f_flows_ecn,    tp->m_folder + "/flows_ecn");
-    std::ofstream f_flows_nonecn; openFileW(&f_flows_nonecn, tp->m_folder + "/flows_nonecn");
+    std::ofstream f_flows_ecn;    openFileW(f_flows_ecn,    tp->m_folder + "/flows_ecn");
+    std::ofstream f_flows_nonecn; openFileW(f_flows_nonecn, tp->m_folder + "/flows_nonecn");
 
     for (auto const& kv: tp->fd_pf_ecn) {
         f_flows_ecn << getProtoRepr(kv.first.m_proto) << " " << IPtoString(kv.first.m_srcip) << " " << kv.first.m_srcport << " " << IPtoString(kv.first.m_dstip) << " " << kv.first.m_dstport << std::endl;
