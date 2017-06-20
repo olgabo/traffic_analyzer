@@ -241,6 +241,10 @@ int setup_pcap(ThreadParam *param, char *dev, std::string &pcapfilter)
         return(2);
     }
 }
+void setThreadParam(ThreadParam *param)
+{
+    tp = param;
+}
 
 int start_analysis(ThreadParam *param)
 {
@@ -249,7 +253,7 @@ int start_analysis(ThreadParam *param)
     pthread_attr_init(&attrs);
     pthread_attr_setdetachstate(&attrs, PTHREAD_CREATE_JOINABLE);
     int res;
-    tp = param;
+    setThreadParam(param);
 
     // initialize pthread condition used to quit threads on interrupts
     pthread_condattr_t attr;

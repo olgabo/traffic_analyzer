@@ -155,6 +155,6 @@ int setup_pcap(ThreadParam *param, char *dev, std::string &pcapfilter);
 int start_analysis(ThreadParam *param);
 void processFD();
 void wait(uint64_t sleep_ns);
-
+void setThreadParam(ThreadParam *param);
 
 #endif // ANALYSIS_H
