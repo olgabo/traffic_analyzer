@@ -76,6 +76,15 @@ ThreadParam::ThreadParam( uint32_t sinterval, std::string folder, uint32_t nrs)
 
     quit = false;
     sample_id = 0;
+
+    // initialize pthread condition used to quit threads on interrupts
+    pthread_condattr_t attr;
+    pthread_condattr_init(&attr);
+    pthread_condattr_setclock(&attr, CLOCK_MONOTONIC);
+    pthread_cond_init(&quit_cond, &attr);
+    pthread_mutex_init(&quit_lock, NULL);
+
+
 }
 
 void ThreadParam::swapDB(){ // called by printInfo
@@ -254,13 +263,6 @@ int start_analysis(ThreadParam *param)
     pthread_attr_setdetachstate(&attrs, PTHREAD_CREATE_JOINABLE);
     int res;
     setThreadParam(param);
-
-    // initialize pthread condition used to quit threads on interrupts
-    pthread_condattr_t attr;
-    pthread_condattr_init(&attr);
-    pthread_condattr_setclock(&attr, CLOCK_MONOTONIC);
-    pthread_cond_init(&tp->quit_cond, &attr);
-    pthread_mutex_init(&tp->quit_lock, NULL);
 
     thread_id[0] = 0;
     res = pthread_create(&thread_id[0], &attrs, &pcapLoop, NULL);
